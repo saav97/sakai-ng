@@ -1,107 +1,91 @@
 <div class="grid">
-	<div class="col-12 md:col-6">
-		<div class="card p-fluid">
-			<h5>Vertical</h5>
-			<div class="field">
-				<label htmlFor="name1">Name</label>
-				<input pInputText id="name1" type="text" />
-			</div>
-			<div class="field">
-				<label htmlFor="email1">Email</label>
-				<input pInputText id="email1" type="text" />
-			</div>
-			<div class="field">
-				<label htmlFor="age1">Age</label>
-				<input pInputText id="age1" type="text" />
-			</div>
-		</div>
-		
-		<div class="card p-fluid">
-			<h5>Vertical Grid</h5>
-			<div class="p-formgrid grid">
-				<div class="field col">
-					<label htmlFor="name2">Name</label>
-					<input pInputText id="name2" type="text" />
+
+	<div class="col-12">
+		<div class="card">
+			<h5>Datos Personales</h5>
+			<div class="p-fluid p-formgrid grid">
+				<div class="field col-12 md:col-4">
+					<label htmlFor="firstname2">Apellido</label>
+					<input pInputText id="firstname2" type="text" />
 				</div>
-				<div class="field col">
-					<label htmlFor="email2">Email</label>
-					<input pInputText id="email2" type="text" />
+				<div class="field col-12 md:col-4">
+					<label htmlFor="lastname2">Nombre</label>
+					<input pInputText id="lastname2" type="text" />
 				</div>
+				<div class="field col-12 md:col-4">
+					<label htmlFor="lastname2">Correo electronico</label>
+					<input pInputText id="lastname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-4">
+					<label htmlFor="firstname2">Cuil</label>
+					<input pInputText id="firstname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-4">
+					<label htmlFor="lastname2">Dni</label>
+					<input pInputText id="lastname2" type="text" />
+				</div>
+				<div class="field col-12 md:col-4">
+					<label htmlFor="lastname2">Fecha Nacimiento</label>
+					<input pInputText id="lastname2" type="text" />
+				</div>
+				<div class="field col-6">
+					<label htmlFor="address">Dirección</label>
+					<input pInputTextarea id="address" rows="4" />
+				</div>
+				<div class="field col-12 md:col-3">
+					<label htmlFor="zip">Teléfono</label>
+					<input pInputText id="zip" type="text" />
+				</div>
+				<div class="field col-12 md:col-3">
+					<label htmlFor="zip">Teléfono Familiar</label>
+					<input pInputText id="zip" type="text" />
+				</div>
+				
 			</div>
 		</div>
 	</div>
 
 	<div class="col-12 md:col-6">
 		<div class="card p-fluid">
-			<h5>Horizontal</h5>
+			<h5>Datos Laborales</h5>
+			<div class="field">
+				<label htmlFor="name1">Legajo</label>
+				<input pInputText id="name1" type="text" />
+			</div>
+			<div class="field">
+				<label htmlFor="email1">Código</label>
+				<input pInputText id="email1" type="text" />
+			</div>
+			<div class="field">
+				<label htmlFor="age1">Categoria</label>
+				<input pInputText id="age1" type="text" />
+			</div>
+		</div>
+		
+	</div>
+
+	<div class="col-12 md:col-6">
+		<div class="card p-fluid">
+			<h5>Datos Bancarios</h5>
 			<div class="field grid">
-				<label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+				<label htmlFor="name3" class="col-12 mb-2 md:col-2 md:mb-0">CBU</label>
 				<div class="col-12 md:col-10">
 					<input pInputText id="name3" type="text" />
 				</div>
 			</div>
 			<div class="field grid">
-				<label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">Email</label>
+				<label htmlFor="email3" class="col-12 mb-2 md:col-2 md:mb-0">ALIAS</label>
 				<div class="col-12 md:col-10">
 					<input pInputText id="email3" type="text" />
 				</div>
 			</div>
 		</div>
 
-		<div class="card">
-			<h5>Inline</h5>
-			<div class="formgroup-inline">
-				<div class="field">
-					<label htmlFor="firstname1" class="p-sr-only">Firstname</label>
-					<input pInputText id="firstname1" type="text" placeholder="Firstname" />
-				</div>
-				<div class="field">
-					<label htmlFor="lastname1" class="p-sr-only">Lastname</label>
-					<input pInputText id="lastname1" type="text" placeholder="Lastname" />
-				</div>
-				<button pButton label="Submit"></button>
-			</div>
-		</div>
+		<div class="col-4 col-offset-8">
+			<p-button label="Agregar" icon="pi pi-check" size="large"></p-button>
+        </div>
 
-		<div class="card">
-			<h5>Help Text</h5>
-			<div class="field p-fluid">
-				<label htmlFor="username">Username</label>
-				<input pInputText id="username" type="text" />
-				<small>Enter your username to reset your password.</small>
-			</div>
-		</div>
 	</div>
 
-	<div class="col-12">
-		<div class="card">
-			<h5>Advanced</h5>
-			<div class="p-fluid p-formgrid grid">
-				<div class="field col-12 md:col-6">
-					<label htmlFor="firstname2">Firstname</label>
-					<input pInputText id="firstname2" type="text" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="lastname2">Lastname</label>
-					<input pInputText id="lastname2" type="text" />
-				</div>
-				<div class="field col-12">
-					<label htmlFor="address">Address</label>
-					<input pInputTextarea id="address" rows="4" />
-				</div>
-				<div class="field col-12 md:col-6">
-					<label htmlFor="city">City</label>
-					<input pInputText id="city" type="text" />
-				</div>
-				<div class="field col-12 md:col-3">
-					<label htmlFor="state">State</label>
-					<p-dropdown [options]="dropdownItems" optionLabel="name" [(ngModel)]="selectedState"></p-dropdown>
-				</div>
-				<div class="field col-12 md:col-3">
-					<label htmlFor="zip">Zip</label>
-					<input pInputText id="zip" type="text" />
-				</div>
-			</div>
-		</div>
-	</div>
+
 </div>

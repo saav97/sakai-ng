@@ -1,0 +1,27 @@
+<div class="col-12 xl:col-6">
+    <div class="card">
+        <h5>Recent Sales</h5>
+        <p-table [value]="empleados" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Legajo</th>
+                    <th pSortableColumn="name">Apellido <p-sortIcon field="name"></p-sortIcon></th>
+                    <th pSortableColumn="price">Nombre <p-sortIcon field="price"></p-sortIcon></th>
+                    <th>Dni</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-empleado>
+                <tr>
+                    <td style="width: 35%; min-width: 7rem;">{{empleado.legajo}}</td>
+
+                    <td style="width: 35%; min-width: 7rem;">{{empleado.apellido}}</td>
+                    <td style="width: 35%; min-width: 8rem;">{{empleado.nombre }}</td>
+                    <td style="width: 15%;">
+                        <button pButton pRipple type="button" icon="pi pi-search"
+                            class="p-button p-component p-button-text p-button-icon-only"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
