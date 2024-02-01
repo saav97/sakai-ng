@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-
 import { Empleado } from '../models/empleado';
 import { Observable } from 'rxjs';
 
@@ -9,13 +8,18 @@ import { Observable } from 'rxjs';
 })
 export class EmpleadoService {
 
-  private EmpleadosCollection: AngularFirestoreCollection<Empleado>
+
+  private employeesCollection: AngularFirestoreCollection<Empleado>;
 
   constructor(private afs: AngularFirestore) {
-    this.EmpleadosCollection = this.afs.collection<Empleado>('empleados');
-   }
+    this.employeesCollection = this.afs.collection<Empleado>('empleados');
+  }
 
-   getEmpleados(): Observable<Empleado[]>{
-    return this.EmpleadosCollection.valueChanges();
-   }
+  getEmployees(): Observable<Empleado[]> {
+    return this.employeesCollection.valueChanges();
+  }
+
+  deleteEmployee(id:string): Promise<void>{
+    return this.employeesCollection.doc(id).delete()
+  }
 }

@@ -8,6 +8,9 @@ import { ButtonModule } from 'primeng/button';
 import { StyleClassModule } from 'primeng/styleclass';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { EmpleadosRegistradosComponent } from './empleados-registrados.component';
+import { EmpleadosRegistradosRoutingModule } from './empleados-registrados-routing.module';
+import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @NgModule({
     imports: [
@@ -18,7 +21,10 @@ import { EmpleadosRegistradosComponent } from './empleados-registrados.component
         TableModule,
         StyleClassModule,
         PanelMenuModule,
-        ButtonModule
+        ButtonModule,
+        InputTextModule,
+        EmpleadosRegistradosRoutingModule,
+        ConfirmDialogModule
     ],
     declarations: [EmpleadosRegistradosComponent]
 })

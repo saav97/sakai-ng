@@ -1,32 +1,31 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     templateUrl: './formlayoutdemo.component.html'
 })
 export class FormLayoutDemoComponent {
 
-    selectedState: any = null;
+    personalForm: FormGroup;
 
-    states: any[] = [
-        {name: 'Arizona', code: 'Arizona'},
-        {name: 'California', value: 'California'},
-        {name: 'Florida', code: 'Florida'},
-        {name: 'Ohio', code: 'Ohio'},
-        {name: 'Washington', code: 'Washington'}
-    ];
 
-    dropdownItems = [
-        { name: 'Option 1', code: 'Option 1' },
-        { name: 'Option 2', code: 'Option 2' },
-        { name: 'Option 3', code: 'Option 3' }
-    ];
-
-    cities1: any[] = [];
-
-    cities2: any[] = [];
-
-    city1: any = null;
-
-    city2: any = null;
+    constructor(private fb: FormBuilder){
+        this.personalForm = this.fb.group({
+            nombre:['', Validators.required],
+            apellido:['', Validators.required],
+            correo:['', Validators.email],
+            cuil:['', Validators.required],
+            dni:['', Validators.required],
+            fechaNacimiento:[''],
+            telefono:['', Validators.required],
+            telefonoFamiliar:['', Validators.required],
+            cbu:[''],
+            alias:[''],
+            legajo:['', Validators.required],
+            codigo:[''],
+            categoria:[''],
+        })
+    }
+    
 
 }
