@@ -1,0 +1,97 @@
+<div class="col-12 xl:col-12">
+    <div class="card">
+        <div class="d-flex justify-content-between align-items-center">
+            <!-- Agrega un botón aquí -->
+            <div class="ml-auto">
+                <!-- Agrega un botón aquí -->
+                <p-button label="Volver" [text]="true" [raised]="true" severity="secondary" class="p-button-secondary"
+                    icon="pi pi-arrow-left" (onClick)="volverAtras()"></p-button>
+            </div>
+            <div class="flex mb-3 mt-3">
+                <p-avatar icon="pi pi-user" size="xlarge" styleClass="mr-2" shape="circle"></p-avatar>
+                <div>
+                    <p width="5rem">{{empleado.apellido}} </p>
+                    <p width="5rem" styleClass="mb-2">{{empleado.nombre}}</p>
+                </div>
+            </div>
+        </div>
+        <p-table #dt1 [value]="asistenciasFiltradas" [paginator]="true" [rows]="10" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <div class="employee-header">
+                        <h5>Asistencia Empleado</h5>
+                    </div>
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-calendar"></i>
+                        <p-calendar [(ngModel)]="dateRange" selectionMode="range" showIcon="true" [locale]="es"
+                            dateFormat="dd/mm/yy"></p-calendar>
+                        <p-button icon="pi pi-search" class="ml-2" severity="secondary"
+                            (click)="filtrarPorFechas()"></p-button>
+                        <p-button icon="pi pi-search" icon="pi pi-file-export" class="ml-2"
+                            severity="success" (click)="exportExcel()"></p-button>
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Fecha</th>
+                    <th>Horario entrada</th>
+                    <th>Observación Entrada</th>
+                    <th>Horario Salida</th>
+                    <th>Observación Salida</th>
+                    <th>Acción</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-asistencia>
+                <tr>
+                    <td style="width: 15%; min-width: 7rem;">{{asistencia.fecha}}</td>
+                    <td style="width: 15%; min-width: 7rem;">{{asistencia.horarioEntrada}}</td>
+                    <td style="width: 20%; min-width: 7rem;">{{asistencia.observacionEntrada }}</td>
+                    <td style="width: 15%; min-width: 7rem;">{{asistencia.horarioSalida}}</td>
+                    <td style="width: 20%; min-width: 7rem;">{{asistencia.observacionSalida }}</td>
+                    <td style="width: 15%;">
+                        <button pButton pRipple type="button" icon="pi pi-pencil"
+                            class="p-button p-component p-button-text p-button-icon-only"
+                            (click)="showDialog(asistencia)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-trash"
+                        (click)="deleteAsistencia(asistencia.fecha)"
+                            class="p-button p-component p-button-text p-button-icon-only p-button-danger"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+
+<p-dialog header="Edición Asistencia" [(visible)]="visible" [modal]="true" [style]="{width: '50vw', 'height': 'auto'}" [draggable]="false" [resizable]="false">
+    <form action="POST" [formGroup]="asistenciaForm">
+        <div class="p-fluid">
+            <div class="p-field" style="margin-bottom: 1rem;">
+                <label for="fecha">Fecha</label>
+                <input pInputText id="fecha" formControlName="fecha" type="text" />
+            </div>
+            <div class="p-field" style="margin-bottom: 1rem;">
+                <label for="horarioEntrada">Horario Entrada</label>
+                <p-calendar formControlName="horarioEntrada" [showTime]="true" [showSeconds]="true" [hourFormat]="12" timeOnly="true"></p-calendar>
+            </div>
+            <div class="p-field" style="margin-bottom: 1rem;">
+                <label for="observacionEntrada">Observación Entrada</label>
+                <input pInputText id="observacionEntrada" formControlName="observacionEntrada" type="text" />
+            </div>
+            <div class="p-field" style="margin-bottom: 1rem;">
+                <label for="horarioSalida">Horario Salida</label>
+                <p-calendar formControlName="horarioSalida" [showTime]="true" [showSeconds]="true" [hourFormat]="12" timeOnly="true"></p-calendar>
+            </div>
+            <div class="p-field" style="margin-bottom: 1rem;">
+                <label for="observacionSalida">Observación Salida</label>
+                <input pInputText id="observacionSalida" formControlName="observacionSalida" type="text" />
+            </div>
+            <div class="p-field">
+                <p-button label="Editar"  severity="secondary" class="p-button-secondary" (onClick)="editar()" icon="pi pi-pencil"></p-button>
+            </div>
+        </div>
+    </form>
+</p-dialog>
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+<p-toast></p-toast>

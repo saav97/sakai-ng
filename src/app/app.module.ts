@@ -16,6 +16,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore'; // Impo
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { EmpleadoService } from './demo/service/empleado.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import '@angular/common/locales/global/es';
+import { Component, LOCALE_ID } from '@angular/core';
+import { ProduccionService } from './demo/service/produccion.service';
+
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -35,6 +39,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         AngularFirestoreModule],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: LOCALE_ID, useValue: 'es' },
         CountryService,
         CustomerService,
         EventService,
@@ -44,7 +49,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
         ProductService,
         EmpleadoService,
         MessageService,
-        ConfirmationService
+        ConfirmationService,
+        ProduccionService
     ],
     bootstrap: [AppComponent],
 })

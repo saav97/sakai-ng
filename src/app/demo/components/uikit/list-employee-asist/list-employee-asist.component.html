@@ -1,0 +1,45 @@
+<div class="col-12 xl:col-12">
+    <div class="card">
+        <div class="flex">
+            <h5>Gestión Empleados</h5>
+        </div>
+        <p-table #dt1 [value]="empleados" [paginator]="true" [rows]="10" responsiveLayout="scroll"
+            [globalFilterFields]="['apellido', 'nombre', 'dni', 'legajo']">
+            <ng-template pTemplate="caption">
+                <div class="flex">
+                    <span class="p-input-icon-left ml-auto">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" (input)="dt1.filterGlobal($event.target.value, 'contains')"
+                            placeholder="Buscar empleado" />
+                    </span>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Legajo</th>
+                    <th>Dni</th>
+                    <th pSortableColumn="apellido">Apellido <p-sortIcon field="apellido"></p-sortIcon></th>
+                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre"></p-sortIcon></th>
+                    <th>Acción</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-empleado>
+                <tr>
+                    <td style="width: 15%; min-width: 7rem;">{{empleado.legajo}}</td>
+                    <td style="width: 20%; min-width: 7rem;">{{empleado.dni}}</td>
+                    <td style="width: 25%; min-width: 7rem;">{{empleado.apellido}}</td>
+                    <td style="width: 25%; min-width: 7rem;">{{empleado.nombre }}</td>
+                    <td style="width: 15%;">
+                        <button pButton pRipple type="button" icon="pi pi-calendar"
+                            class="p-button p-component p-button-text p-button-icon-only"
+                            (click)="verAsistencia(empleado.id)"></button>
+                        <button pButton pRipple type="button" icon="pi pi-apple"
+                            class="p-button p-component p-button-text p-button-icon-only p-button-danger"
+                            (click)="verProduccion(empleado.id)"
+                            ></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

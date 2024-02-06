@@ -1,5 +1,5 @@
 export interface Empleado {
-    id:string,
+    id?:string,
     nombre:string,
     apellido:string,
     dni:string,
@@ -11,5 +11,6 @@ export interface Empleado {
     alias:string,
     cbu:string,
     legajo:string,
-    codigo:number
+    codigo:number,
+    direccion:string
 }

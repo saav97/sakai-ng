@@ -28,10 +28,9 @@ export class AppMenuComponent implements OnInit {
                 ]
             },
             {
-                label: 'Asistencia',
+                label: 'Asistencia y Producción',
                 items: [
-                    { label: 'Registro Asistencia Manual', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/formlayout'] },
-                    { label: 'Lista Empleados', icon: 'pi pi-fw pi-check-square', routerLink: ['/uikit/input'] },
+                    { label: 'Empleados', icon: 'pi pi-fw pi-id-card', routerLink: ['/uikit/empleados-gestion'] },
                 ]
             },
             {

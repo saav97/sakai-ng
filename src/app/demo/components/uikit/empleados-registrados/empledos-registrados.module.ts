@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartModule } from 'primeng/chart';
 import { MenuModule } from 'primeng/menu';
 import { TableModule } from 'primeng/table';
@@ -11,6 +11,10 @@ import { EmpleadosRegistradosComponent } from './empleados-registrados.component
 import { EmpleadosRegistradosRoutingModule } from './empleados-registrados-routing.module';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { DialogModule } from 'primeng/dialog';
+
+
 
 @NgModule({
     imports: [
@@ -24,7 +28,10 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
         ButtonModule,
         InputTextModule,
         EmpleadosRegistradosRoutingModule,
-        ConfirmDialogModule
+        ConfirmDialogModule,
+        ToastModule,
+        DialogModule,
+        ReactiveFormsModule
     ],
     declarations: [EmpleadosRegistradosComponent]
 })

@@ -13,6 +13,8 @@ import { CascadeSelectModule } from "primeng/cascadeselect";
 import { MultiSelectModule } from "primeng/multiselect";
 import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
+import { ToastModule } from 'primeng/toast';
+
 
 @NgModule({
 	imports: [
@@ -29,7 +31,9 @@ import { InputTextModule } from "primeng/inputtext";
 		MultiSelectModule,
 		InputTextareaModule,
 		InputTextModule,
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		ToastModule
+		
 	],
 	declarations: [FormLayoutDemoComponent]
 })

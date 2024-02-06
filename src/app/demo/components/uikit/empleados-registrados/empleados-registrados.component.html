@@ -31,9 +31,11 @@
                     <td style="width: 25%; min-width: 7rem;">{{empleado.nombre }}</td>
                     <td style="width: 10%;">
                         <button pButton pRipple type="button" icon="pi pi-search"
-                            class="p-button p-component p-button-text p-button-icon-only"></button>
+                            class="p-button p-component p-button-text p-button-icon-only"
+                            (click)="showDialog(empleado)"></button>
                         <button pButton pRipple type="button" icon="pi pi-trash"
-                            class="p-button p-component p-button-text p-button-icon-only p-button-danger" (click)="deleteEmpleado(empleado)"></button>
+                            class="p-button p-component p-button-text p-button-icon-only p-button-danger"
+                            (click)="deleteEmpleado(empleado)"></button>
                     </td>
                 </tr>
             </ng-template>
@@ -42,3 +44,103 @@
 </div>
 
 <p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+
+<p-dialog header="Vista Empleado" [(visible)]="visible" [style]="{width: '80vw'}" [maximizable]="true">
+    <form action="" [formGroup]="personalForm">
+
+        <div class="grid">
+            <div class="col-12">
+                <div class="card">
+                    <h5>Datos Personales</h5>
+                    <div class="p-fluid p-formgrid grid">
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="apellido">Apellido</label>
+                            <input pInputText id="apellido" formControlName="apellido" type="text" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="nombre">Nombre</label>
+                            <input pInputText id="nombre" formControlName="nombre" type="text" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="correo">Correo electronico</label>
+                            <input pInputText id="correo" formControlName="correo" type="text" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="cuil">Cuil</label>
+                            <input pInputText id="cuil" type="text" formControName="cuil" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="dni">Dni</label>
+                            <input pInputText id="dni" formControlName="dni" type="text" />
+                        </div>
+                        <div class="field col-12 md:col-4">
+                            <label htmlFor="fechaNacimiento">Fecha Nacimiento</label>
+                            <input pInputText id="fechaNacimiento" formControlName="fechaNacimiento" type="text" />
+                        </div>
+                        <div class="field col-6">
+                            <label htmlFor="direccion">Dirección</label>
+                            <input pInputText id="direccion" formControlName="direccion" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="telefono">Teléfono</label>
+                            <input pInputText id="telefono" formControlName="telefono" type="text" />
+                        </div>
+                        <div class="field col-12 md:col-3">
+                            <label htmlFor="telefonoFamiliar">Teléfono Familiar</label>
+                            <input pInputText id="telefonoFamiliar" type="text" formControlName="telefonoFamiliar" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+                <div class="card p-fluid">
+                    <h5>Datos Laborales</h5>
+                    <div class="field">
+                        <label htmlFor="legajo">Legajo</label>
+                        <input pInputText id="legajo" formControlName="legajo" type="text" />
+                    </div>
+                    <div class="field">
+                        <label htmlFor="codigo">Código</label>
+                        <input pInputText id="codigo" formControlName="codigo" type="text" />
+                    </div>
+                    <div class="field">
+                        <label htmlFor="categoria">Categoria</label>
+                        <input pInputText id="categoria" formControlName="categoria" type="text" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12 md:col-6">
+                <div class="card p-fluid">
+                    <h5>Datos Bancarios</h5>
+                    <div class="field grid">
+                        <label htmlFor="cbu" class="col-12 mb-2 md:col-2 md:mb-0">CBU</label>
+                        <div class="col-12 md:col-10">
+                            <input pInputText id="cbu" formControlName="cbu" type="text" />
+                        </div>
+                    </div>
+                    <div class="field grid">
+                        <label htmlFor="alias" class="col-12 mb-2 md:col-2 md:mb-0">ALIAS</label>
+                        <div class="col-12 md:col-10">
+                            <input pInputText id="alias" formControlName="alias" type="text" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4 col-offset-8">
+                    <p-button label="Editar" (onClick)="editEmpleado()" icon="pi pi-check" size="large"></p-button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+    <p-toast></p-toast>
+</p-dialog>
+
+<p-toast></p-toast>

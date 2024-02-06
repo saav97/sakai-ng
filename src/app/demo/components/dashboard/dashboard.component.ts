@@ -4,6 +4,7 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { EmpleadoService } from '../../service/empleado.service';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -20,7 +21,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     subscription!: Subscription;
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
+    totalEmpleados: number = 0;
+
+    constructor(private productService: ProductService, public layoutService: LayoutService, private empleadoService: EmpleadoService) {
+        
+        this.empleadoService.getTotalEmpleados().subscribe((total)=>{
+            this.totalEmpleados = total;
+        })
+        
         this.subscription = this.layoutService.configUpdate$
         .pipe(debounceTime(25))
         .subscribe((config) => {
