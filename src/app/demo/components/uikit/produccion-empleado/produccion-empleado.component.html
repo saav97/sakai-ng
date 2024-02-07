@@ -10,8 +10,8 @@
         <div class="flex mb-3 mt-3">
             <p-avatar icon="pi pi-user" size="xlarge" styleClass="mr-2" shape="circle"></p-avatar>
             <div>
-                <p width="5rem">{{empleado.apellido}} </p>
-                <p width="5rem" styleClass="mb-2">{{empleado.nombre}}</p>
+                @if(empleado?.apellido){<p width="5rem">{{empleado?.apellido!}} </p>}
+                <p width="5rem" styleClass="mb-2">{{empleado?.nombre}}</p>
             </div>
         </div>
     </div>
@@ -72,9 +72,6 @@
                 <td>{{ bines.horarioRealizado }}</td>
                 <td>{{ bines.tamanio }}</td>
                 <td style="width: 15%;">
-                    <button pButton pRipple type="button" icon="pi pi-pencil"
-                        class="p-button p-component p-button-text p-button-icon-only"
-                        (click)="showDialog(bines)"></button>
                     <button pButton pRipple type="button" icon="pi pi-trash" (click)="deleteBins(bines.id, bines.fecha)"
                         class="p-button p-component p-button-text p-button-icon-only p-button-danger"></button>
                 </td>
@@ -94,7 +91,7 @@
 </div>
 
 
-<p-dialog [header]="title" [(visible)]="visible" [modal]="true" [style]="{width: '50vw', 'height': 'auto'}"
+<p-dialog [header]="title" [(visible)]="visible" [modal]="true" [style]="{width: '50vw', height: '70vw'}"
     [draggable]="false" [resizable]="false">
     <form action="POST" [formGroup]="binesForm">
         <div class="p-fluid">
@@ -109,12 +106,17 @@
             </div>
             <div class="p-field" style="margin-bottom: 1rem;">
                 <label for="precio">tamanio</label>
-                <p-dropdown formControlName="tamanio" [options]="bines" optionLabel="tamanio" placeholder="Seleccionar tipo de bins"></p-dropdown>
+                <p-dropdown formControlName="tamanio" [options]="bines" optionLabel="tamanio"
+                    placeholder="Seleccionar tipo de bins"></p-dropdown>
 
             </div>
             <div class="p-field" style="margin-bottom: 1rem;">
                 <label for="precioSugerido">Precio Sugerido</label>
-                <p-inputNumber formControlName="precioSugerido" inputId="currency-us" mode="currency" currency="USD" locale="en-US"> </p-inputNumber>
+                <p-inputNumber formControlName="precioSugerido" inputId="currency-us" mode="currency" currency="USD"
+                    locale="en-US"> </p-inputNumber>
+            </div>
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <img src="https://wencobins.cl/assets/uploads/2020/11/durabing1-640x430-c-default.png" alt="Imagen" style="max-width: 100%; max-height: 300px;">
             </div>
             <div class="p-field">
                 <p-button [label]="buttonAccion" severity="secondary" class="p-button-secondary" (onClick)="editar()"
@@ -123,3 +125,7 @@
         </div>
     </form>
 </p-dialog>
+
+<p-confirmDialog [style]="{ width: '450px' }"></p-confirmDialog>
+
+<p-toast></p-toast>

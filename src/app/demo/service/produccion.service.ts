@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable, Subject, catchError, concatMap, forkJoin, from, map, of, startWith, switchMap, toArray } from 'rxjs';
+import { Observable, Subject, catchError, forkJoin, from, map, of, startWith, switchMap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,13 +52,21 @@ export class ProduccionService {
 
   agregarBins(idEmpleado:string, fecha:string, newBins:any){
     const id = this.afs.createId();
+    console.log(newBins);
+    
     newBins.id = id;
     newBins.tamanio = newBins.tamanio.tamanio;
-    return this.afs.collection(`empleados/${idEmpleado}/cosecha/${fecha}/bines`).doc(newBins.id).set(newBins);
+    return this.afs.collection(`empleados/${idEmpleado}/cosecha`).doc(fecha).set({}).then(()=>{
+      return this.afs.collection(`empleados/${idEmpleado}/cosecha/${fecha}/bines`).doc(newBins.id).set(newBins);
+    })
   }
 
   obtenerBines(){
     return this.afs.collection('lotes').valueChanges();
+  }
+
+  deleteFecha(idEmpleado:string, fecha:string){
+    return this.afs.collection(`empleados/${idEmpleado}/cosecha`).doc(fecha).delete();
   }
 }
 

@@ -8,13 +8,15 @@ import { EmpleadoService } from 'src/app/demo/service/empleado.service';
 import { ProduccionService } from 'src/app/demo/service/produccion.service';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 
 @Component({
   selector: 'app-produccion-empleado',
   templateUrl: './produccion-empleado.component.html',
   styleUrl: './produccion-empleado.component.scss',
-  providers: [{ provide: LOCALE_ID, useValue: 'es' }]
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }, MessageService, ConfirmationService]
 })
 export class ProduccionEmpleadoComponent implements OnInit {
 
@@ -30,7 +32,7 @@ export class ProduccionEmpleadoComponent implements OnInit {
 
   fechas: any[] = [];
 
-  empleado: Empleado;
+  empleado!: Empleado
 
   dateRange: Date[];
 
@@ -44,7 +46,9 @@ export class ProduccionEmpleadoComponent implements OnInit {
 
   nuevo: boolean = true;
 
-  constructor(private fb: FormBuilder, private location: Location, private produccionService: ProduccionService, private route: ActivatedRoute, private empleadoService: EmpleadoService) {
+  listaFechas: any[] = [];
+
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService, private fb: FormBuilder, private location: Location, private produccionService: ProduccionService, private route: ActivatedRoute, private empleadoService: EmpleadoService) {
     this.binesForm = this.fb.group({
       fecha: [''],
       horarioRealizado: [''],
@@ -66,6 +70,8 @@ export class ProduccionEmpleadoComponent implements OnInit {
     })
     this.produccionService.obtenerFechas(this.empleadoId).subscribe(
       (fechas: string[]) => {
+        console.log(fechas);
+
         this.obtenerProduccionInicial(this.empleadoId, fechas);
       },
       error => {
@@ -83,30 +89,48 @@ export class ProduccionEmpleadoComponent implements OnInit {
           // Actualizar la lista local de manera incremental
           this.actualizarListaIncremental(fechas[index], produccionFecha);
         });
+
+        // Agregar las nuevas fechas si es que las hay
+
+        const nuevasFechas = fechas.filter(fecha => !this.listaFechas.includes(fecha));
+        nuevasFechas.forEach(nuevaFecha => {
+          this.produccionService.obtenerProduccionFecha(idEmpleado, nuevaFecha).subscribe(
+            nuevaProduccion => {
+              this.actualizarListaIncremental(nuevaFecha, nuevaProduccion);
+            },
+            error => {
+              console.error('Error al obtener la producción para la nueva fecha:', error);
+            }
+          );
+        });
       },
       error => {
         console.error('Error al obtener la producción:', error);
       }
     );
   }
-
   private actualizarListaIncremental(fecha: string, nuevosElementos: any[]): void {
     const index = this.produccion.findIndex(item => item.fecha === fecha);
 
-    if (index !== -1) {
-      // Si la fecha ya existe, actualiza los bines
-      this.produccion[index].bines = nuevosElementos;
+    if (nuevosElementos.length > 0) {
+      if (index !== -1) {
+        // Si la fecha ya existe, actualiza los bines
+        this.produccion[index].bines = nuevosElementos;
+      } else {
+        // Si la fecha no existe, agrega un nuevo elemento a la lista
+        this.produccion.push({ fecha, bines: nuevosElementos });
+
+        this.ProduccionFiltradas = this.produccion.sort((a, b) => {
+          const fechaA = a.fecha.split('-').reverse().join('-');
+          const fechaB = b.fecha.split('-').reverse().join('-');
+
+          // Compara las fechas y devuelve el resultado de la comparación
+          return new Date(fechaB).getTime() - new Date(fechaA).getTime();
+        });
+      }
     } else {
-      // Si la fecha no existe, agrega un nuevo elemento a la lista
-      this.produccion.push({ fecha, bines: nuevosElementos });
-
-      this.ProduccionFiltradas = this.produccion.sort((a, b) => {
-        const fechaA = a.fecha.split('-').reverse().join('-');
-        const fechaB = b.fecha.split('-').reverse().join('-');
-
-        // Compara las fechas y devuelve el resultado de la comparación
-        return new Date(fechaB).getTime() - new Date(fechaA).getTime();
-      })
+      // Si nuevosElementos está vacío, puedes manejarlo según tus necesidades
+      console.log(`No se agregó la fecha ${fecha} porque no tiene elementos.`);
     }
   }
 
@@ -233,14 +257,36 @@ export class ProduccionEmpleadoComponent implements OnInit {
     this.binesForm.reset();
   }
 
-  deleteBins(idBins:string, fecha:string) {
-    this.produccionService.deleteBins(this.empleadoId, fecha, idBins).then(()=>{
-      console.log('borrado con exito');
-    })
-    .catch((error)=>{
-      console.log(error);
-      
-    })
+  deleteBins(idBins: string, fecha: string) {
+
+    this.confirmationService.confirm({
+      message: 'Esta seguro de eliminar el bins en la fecha ' + fecha + ' ?',
+      header: 'Confirmar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.produccionService.deleteBins(this.empleadoId, fecha, idBins).then(() => {
+          const index = this.ProduccionFiltradas.findIndex(item => item.fecha === fecha);
+
+          if (index !== -1 && this.ProduccionFiltradas[index].bines.length === 0) {
+            // Si la fecha ya no tiene bines después de la eliminación, elimínala de la lista
+            this.ProduccionFiltradas.splice(index, 1);
+
+            this.ProduccionFiltradas = this.ProduccionFiltradas.sort((a, b) => {
+              const fechaA = a.fecha.split('-').reverse().join('-');
+              const fechaB = b.fecha.split('-').reverse().join('-');
+              return new Date(fechaB).getTime() - new Date(fechaA).getTime();
+            });
+          }
+          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Bin Eliminado', life: 3000 });
+          // Después de borrar el bin, verifica si la fecha aún tiene bines
+
+        })
+          .catch((error) => {
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al eliminar', life: 3000 });
+          });
+      }
+    });
+
 
   }
 
@@ -283,19 +329,15 @@ export class ProduccionEmpleadoComponent implements OnInit {
 
 
     if (this.nuevo) {
-
-      console.log(this.binesForm.value);
-
       this.produccionService.agregarBins(this.empleadoId, this.binesForm.value.fecha, this.binesForm.value).then(() => {
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Bin Agregado con exito', life: 3000 });
         this.visible = false;
       })
         .catch((error) => {
-          console.log(error);
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al Agregar', life: 3000 });
         })
     }
     else {
-      console.log(this.binesForm.value);
-
       this.produccionService.editBins(this.empleadoId, this.binesForm.value.fecha, this.binesForm.value.id, this.binesForm.value).
         then(() => {
           this.visible = false;
@@ -307,6 +349,4 @@ export class ProduccionEmpleadoComponent implements OnInit {
         })
     }
   }
-
-
 }

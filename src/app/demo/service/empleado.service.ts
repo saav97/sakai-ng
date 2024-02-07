@@ -52,7 +52,7 @@ export class EmpleadoService {
 
     const id = this.afs.createId();
     newEmployee.id = id;
-    return this, this.employeesCollection.doc(id).set(newEmployee);
+    return this.employeesCollection.doc(id).set(newEmployee);
   }
 
 
