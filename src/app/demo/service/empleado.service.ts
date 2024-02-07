@@ -19,7 +19,7 @@ export class EmpleadoService {
     return this.employeesCollection.valueChanges();
   }
 
-  getEmployee(idEmpleado):Observable<Empleado>{
+  getEmployee(idEmpleado): Observable<Empleado> {
     const employeeDoc = this.employeesCollection.doc<Empleado>(idEmpleado);
 
     return employeeDoc.valueChanges();
@@ -65,4 +65,18 @@ export class EmpleadoService {
       map(querySnapshot => querySnapshot.size)
     );
   }
+  getEmpleadosAsistenciaEnFecha(fecha: string): Observable<any[]> {
+    return this.afs.collection('empleados', ref =>
+      ref.where(`asistencias.${fecha}`, '!=', null)
+    ).snapshotChanges().pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data:any = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
+  }
 }
+
